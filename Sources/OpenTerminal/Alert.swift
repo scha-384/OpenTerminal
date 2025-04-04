@@ -9,7 +9,6 @@
 import AppKit
 
 func alert(message: String) {
-	
 	let alert = NSAlert()
 	
 	alert.messageText = message

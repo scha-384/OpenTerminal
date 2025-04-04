@@ -9,23 +9,18 @@
 import Foundation
 
 extension NSAppleScript {
-
 	enum Error : Swift.Error {
-		
 		case executionFailure(errorInfo: NSDictionary)
 	}
 }
 
 extension NSAppleScript {
-	
 	@discardableResult
 	func execute() throws -> NSAppleEventDescriptor {
-		
 		var errorInformation: NSDictionary?
 		let result = executeAndReturnError(&errorInformation)
 		
 		guard errorInformation == nil else {
-			
 			throw Error.executionFailure(errorInfo: errorInformation!)
 		}
 		

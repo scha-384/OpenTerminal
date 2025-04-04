@@ -13,37 +13,22 @@ private let fileManager = FileManager()
 extension URL {
 
 	var pathForAppleScriptWithEscapedSpace: String {
-		
 		return "\(path.replacingOccurrences(of: " ", with: "\\\\ "))"
 	}
 	
 	var truncatedToDirectoryName: URL {
-		
 		var isDirectory: ObjCBool = false
-		var isFile: Bool {
-			
-			return !isDirectory.boolValue
-		}
+		var isFile: Bool { !isDirectory.boolValue }
 		
-		guard fileManager.fileExists(atPath: path, isDirectory: &isDirectory) else {
-			
-			// Return self if the url is not exists. This is an unexpected case.
-			return self
-		}
+		guard fileManager.fileExists(atPath: path, isDirectory: &isDirectory) else { return self }
+		// Return self if the URL doesn't exist. This is an unexpected case.
 		
-		guard isFile else {
-			
-			return self
-		}
+		guard isFile else { return self }
 		
 		return deletingLastPathComponent()
 	}
 }
 
 extension Sequence where Element == URL {
-	
-	var uniquelySet: Set<Element> {
-		
-		return Set(self)
-	}
+	var uniquelySet: Set<Element> { Set(self) }
 }

@@ -9,6 +9,5 @@
 import Foundation
 
 protocol Terminal {
-	
 	func open(url: URL) throws
 }

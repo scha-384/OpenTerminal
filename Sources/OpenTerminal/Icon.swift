@@ -12,13 +12,9 @@ func updateAppIcon() {
 
 	let buildVersion = AppInfo.buildVersion
 	
-	guard buildVersion != AppInfo.lastLaunchedBuildVersion else {
-		
-		return
-	}
+	guard buildVersion != AppInfo.lastLaunchedBuildVersion else { return }
 	
 	if NSWorkspace.shared.setIcon(AppInfo.effectiveAppIcon, forFile: AppInfo.bundlePath) {
-		
 		AppInfo.lastLaunchedBuildVersion = buildVersion
 	}
 }

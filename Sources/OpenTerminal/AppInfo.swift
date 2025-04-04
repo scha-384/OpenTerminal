@@ -9,19 +9,16 @@
 import AppKit
 
 struct AppInfo {
-	
 	private static let buildVersionKey = "CFBundleVersion"
 	private static let lastLaunchedBuildVersionKey = "LastLaunchedBuildVersion"
 	
 	static var buildVersion: Int {
 		
 		guard let rawVersion = Bundle.main.object(forInfoDictionaryKey: buildVersionKey) as? String else {
-			
 			fatalError("Failed to get current build version.")
 		}
 		
 		guard let version = Int(rawVersion, radix: 10) else {
-			
 			fatalError("Invalid build version: \(rawVersion)")
 		}
 		
@@ -30,24 +27,12 @@ struct AppInfo {
 	
 	static var lastLaunchedBuildVersion: Int {
 		
-		get {
-			
-			UserDefaults.standard.integer(forKey: lastLaunchedBuildVersionKey)
-		}
+		get { UserDefaults.standard.integer(forKey: lastLaunchedBuildVersionKey) }
 		
-		set (version) {
-			
-			UserDefaults.standard.set(version, forKey: lastLaunchedBuildVersionKey)
-		}
+		set { UserDefaults.standard.set(newValue, forKey: lastLaunchedBuildVersionKey) }
 	}
 	
-	static var effectiveAppIcon: NSImage {
-		
-		NSImage(named: "EffectiveAppIcon")!
-	}
+	static var effectiveAppIcon: NSImage { NSImage(named: "EffectiveAppIcon")! }
 	
-	static var bundlePath: String {
-		
-		Bundle.main.bundlePath
-	}
+	static var bundlePath: String { Bundle.main.bundlePath }
 }

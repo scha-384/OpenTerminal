@@ -9,11 +9,8 @@
 import Foundation
 
 final class ITerm2 : Terminal {
-
 	func open(url: URL) throws {
-		
 		let source = """
-		
 		tell application "iTerm2"
 		
 			create window with default profile
@@ -28,11 +25,8 @@ final class ITerm2 : Terminal {
 		let script = NSAppleScript(source: source)!
 		
 		do {
-
 			try script.execute()
-		}
-		catch {
-			
+		} catch {
 			throw OpenError(appleScriptExecutionError: error)
 		}
 	}

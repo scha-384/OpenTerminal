@@ -16,42 +16,37 @@ let selectionItems = selection.get() as! Array<AnyObject>
 
 let filePaths: Array<String>
 
-updateAppIcon()
+//updateAppIcon()
 
 if selectionItems.isEmpty {
-	
-	// This case is for launch from Toolbar.
-	let window = finder.windows!().first as! FinderFinderWindowProtocol
-	let container = window.target!
-	let item = container.get() as! FinderItemProtocol
+	// if launched from the toolbar
+	guard let window = finder.windows?().first as? FinderFinderWindowProtocol else { exit(1) }
+	guard let container = window.target else { exit(1) }
+	guard let item = container.get() as? FinderItemProtocol else { exit(1) }
 	
 	filePaths = [item.url!]
-}
-else {
-	
-	// This case is for launch from Finder directly.
+} else {
+	// if launched from Finder directly
 	filePaths = selectionItems
 		.compactMap { $0 as? FinderApplicationFileProtocol }
 		.compactMap { $0.url }
+		.compactMap {
+			URL(string: $0)?
+				.deletingLastPathComponent()
+				.absoluteString
+		}
 }
 
 filePaths
-	.compactMap { URL.init(string: $0) }
+	.compactMap { URL(string: $0) }
 	.compactMap { $0.truncatedToDirectoryName }
 	.uniquelySet
 	.forEach { url in
-	
-	do {
-		
-		guard let terminal = settings.terminal else {
+		do {
+			guard let terminal = settings.terminal else { throw OpenError.cannotSpecifyTargetTerminal }
 			
-			throw OpenError.cannotSpecifyTargetTerminal
+			try terminal.open(url: url)
+		} catch {
+			alert(message: "\(error)")
 		}
-		
-		try terminal.open(url: url)
 	}
-	catch {
-		
-		alert(message: "\(error)")
-	}
-}
